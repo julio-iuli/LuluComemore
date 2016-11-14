@@ -6,6 +6,7 @@ import java.sql.SQLException;
 //import java.util.Date;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 //import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -24,6 +25,7 @@ public class AppCliente extends JFrame implements ActionListener {
 			txtcomplemento, txtlogradouro, txtrecomendacaoNome, txtrecomendacaoDataNasc, txtrgEmissor, txtTipoPfPj,txtCpf,txtCnpj;
 
 //	private JComboBox cboxrgEmissor, cboxTipoPfPj;
+	private JCheckBox cboxPfPj;
 
 	private JButton btnEnviar, btnLimpar;
 
@@ -70,22 +72,28 @@ public class AppCliente extends JFrame implements ActionListener {
 		txtrgEmissor = new JTextField(30);
 		txtrgEmissor.setBounds(290, 135, 50, 20);
 
-		lblTipoPfPj = new JLabel("Tipo de DOC.:");
-		lblTipoPfPj.setBounds(10, 160, 80, 20);
+		//lblTipoPfPj = new JLabel("Tipo de DOC.:");
+		//lblTipoPfPj.setBounds(10, 160, 80, 20);
 		//String tipoDoc[] = { "CPF", "CNPJ" };
-		txtTipoPfPj = new JTextField(30);
-		txtTipoPfPj.setBounds(130, 160, 60, 20);
+		//txtTipoPfPj = new JTextField(30);
+		//txtTipoPfPj.setBounds(130, 160, 60, 20);
 		//	txtPfPj = new JTextField(30);
 		//	txtPfPj.setBounds(195, 160, 150, 20);
+		
+		cboxPfPj = new JCheckBox("Pessoa Jurídica?");
+		cboxPfPj.setBounds(130, 160, 150, 20);
+		cboxPfPj.addActionListener(this);
 		
 		lblCpf = new JLabel("CPF:");
 		lblCpf.setBounds(10,185,50,20);
 		txtCpf = new JTextField(30);
 		txtCpf.setBounds(130,185,200,20);
+		
 		lblCnpj = new JLabel("CNPJ:");
 		lblCnpj.setBounds(10, 210, 100, 20);
 		txtCnpj = new JTextField(30);
 		txtCnpj.setBounds(130, 210, 200, 20);
+		txtCnpj.setVisible(false);
 		
 		lblemail = new JLabel("Email: ");
 		lblemail.setBounds(10, 235, 100, 20);
@@ -136,8 +144,13 @@ public class AppCliente extends JFrame implements ActionListener {
 		add(txtrg);
 		add(lblrgEmissor);
 		add(txtrgEmissor);
-		add(lblTipoPfPj);
-		add(txtTipoPfPj);
+		
+		//Escolhendo o tipo
+		//add(lblTipoPfPj);
+		//add(txtTipoPfPj);
+		
+		add(cboxPfPj);
+		
 		add(lblCpf);
 		add(txtCpf);
 		add(lblCnpj);
@@ -226,6 +239,19 @@ public class AppCliente extends JFrame implements ActionListener {
 			txtrecomendacaoNome.setText("");
 			txtrecomendacaoDataNasc.setText("");
 			
+		}
+		else if (cboxPfPj == clique.getSource()) {
+			if(cboxPfPj.isSelected()) {
+				txtCpf.setVisible(false);
+				txtrg.setVisible(false);
+				txtrgEmissor.setVisible(false);
+				txtCnpj.setVisible(true);
+			} else {
+				txtCpf.setVisible(true);
+				txtrg.setVisible(true);
+				txtrgEmissor.setVisible(true);
+				txtCnpj.setVisible(false);
+			}
 		}
 		
 			
