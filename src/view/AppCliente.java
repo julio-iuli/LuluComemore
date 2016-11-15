@@ -13,6 +13,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
+import org.jdatepicker.impl.JDatePickerImpl;
+
 import model.Cliente;
 import model.ClienteDAO;
 
@@ -24,6 +26,7 @@ public class AppCliente extends JFrame implements ActionListener {
 	private JTextField txtNome, txtresddd, txtrestel, txtcelddd, txtceltel, txtrg, txtPfPj, txtemail, txtdataNasc,
 			txtcomplemento, txtlogradouro, txtrecomendacaoNome, txtrecomendacaoDataNasc, txtrgEmissor, txtTipoPfPj,txtCpf,txtCnpj;
 
+	private JDatePickerImpl dataNasc, recomendacaoDataNasc;
 //	private JComboBox cboxrgEmissor, cboxTipoPfPj;
 	private JCheckBox cboxPfPj;
 
@@ -101,8 +104,14 @@ public class AppCliente extends JFrame implements ActionListener {
 		txtemail.setBounds(130, 235, 300, 20);
 		lbldataNasc = new JLabel("Data de Nasc.: ");
 		lbldataNasc.setBounds(10, 260, 100, 20);
+		
+		/*
 		txtdataNasc = new JTextField(30);
 		txtdataNasc.setBounds(130, 260, 100, 20);
+		*/
+		// COLOCANDO O DATEPICKER DATANASC
+		dataNasc = JulioDatePicker.criar(1980);
+		dataNasc.setBounds(130, 260, 170, 20);
 		
 		lblcomplemento = new JLabel("Complemento: ");
 		lblcomplemento.setBounds(10, 285, 100, 20);
@@ -119,8 +128,14 @@ public class AppCliente extends JFrame implements ActionListener {
 		txtrecomendacaoNome.setBounds(130, 335, 300, 20);
 		lblrecomendacaoDataNasc = new JLabel("Data de Nasc.: ");
 		lblrecomendacaoDataNasc.setBounds(10, 360, 100, 20);
+		
+		/*
 		txtrecomendacaoDataNasc = new JTextField(30);
 		txtrecomendacaoDataNasc.setBounds(130, 360, 70, 20);
+		*/
+		// COLOCANDO O DATEPICKER RECOMENDACAODATANASC
+		recomendacaoDataNasc = JulioDatePicker.criar(2000);
+		recomendacaoDataNasc.setBounds(130, 360, 170, 20);
 
 		btnEnviar = new JButton("Enviar");
 		btnEnviar.setBounds(10, 385, 80, 20);
@@ -159,7 +174,7 @@ public class AppCliente extends JFrame implements ActionListener {
 		add(lblemail);
 		add(txtemail);
 		add(lbldataNasc);
-		add(txtdataNasc);
+		add(dataNasc); // add(txtdataNasc);
 		add(lblcomplemento);
 		add(txtcomplemento);
 		add(lbllogradouro);
@@ -167,7 +182,7 @@ public class AppCliente extends JFrame implements ActionListener {
 		add(lblrecomendacaoNome);
 		add(txtrecomendacaoNome);
 		add(lblrecomendacaoDataNasc);
-		add(txtrecomendacaoDataNasc);
+		add(recomendacaoDataNasc); //add(txtrecomendacaoDataNasc);
 		add(btnEnviar);
 		add(btnLimpar);
 
