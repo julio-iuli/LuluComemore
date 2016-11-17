@@ -1,5 +1,7 @@
 package model;
 
+import java.time.LocalDate;
+
 //import java.awt.Toolkit;
 //import java.util.Date;
 
@@ -17,18 +19,18 @@ public class Cliente {
 	private int cnpj;
 	private boolean pfpj;
 	private String email;
-	private String datanasc;
+	private LocalDate datanasc;
 	private String complemento;
 	private int idlogradouro;
 	private String recomendacaonome;
-	private String recomendacaodatanasc;
+	private LocalDate recomendacaodatanasc;
 	
 	public Cliente(){
 		
 	}
 	public Cliente(int id, String nome, int resddd, int restel, int celddd, int celtel, int rg, String rgemissor,
-					boolean pfpj, int cpf, int cnpj, String email, String datanasc, String complemento,
-					int idlogradouro, String recomendacaonome, String recomendacaodatanasc){
+					boolean pfpj, int cpf, int cnpj, String email, LocalDate datanasc, String complemento,
+					int idlogradouro, String recomendacaonome, LocalDate recomendacaodatanasc){
 		this.id = id;
 		this.nome = nome;
 		this.resddd = resddd;
@@ -129,10 +131,10 @@ public class Cliente {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public String getDatanasc() {
+	public LocalDate getDatanasc() {
 		return datanasc;
 	}
-	public void setDataNasc(String datanasc) {
+	public void setDataNasc(LocalDate datanasc) {
 		this.datanasc = datanasc;
 	}
 	public String getComplemento() {
@@ -153,10 +155,10 @@ public class Cliente {
 	public void setRecomendacaonome(String recomendacaonome) {
 		this.recomendacaonome = recomendacaonome;
 	}
-	public String getRecomendacaodatanasc() {
+	public LocalDate getRecomendacaodatanasc() {
 		return recomendacaodatanasc;
 	}
-	public void setRecomendacaodatanasc(String recomendacaodatanasc) {
+	public void setRecomendacaodatanasc(LocalDate recomendacaodatanasc) {
 		this.recomendacaodatanasc = recomendacaodatanasc;
 	}
 	

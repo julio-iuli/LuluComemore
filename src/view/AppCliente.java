@@ -4,13 +4,17 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 //import java.util.Date;
+import java.time.LocalDate;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 //import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+
+import org.jdatepicker.impl.JDatePickerImpl;
 
 import model.Cliente;
 import model.ClienteDAO;
@@ -23,24 +27,26 @@ public class AppCliente extends JFrame implements ActionListener {
 	private JTextField txtNome, txtresddd, txtrestel, txtcelddd, txtceltel, txtrg, txtPfPj, txtemail, txtdataNasc,
 			txtcomplemento, txtlogradouro, txtrecomendacaoNome, txtrecomendacaoDataNasc, txtrgEmissor, txtTipoPfPj,txtCpf,txtCnpj;
 
+	private JDatePickerImpl dataNasci, recomendacaoDataNasci;
 //	private JComboBox cboxrgEmissor, cboxTipoPfPj;
+	private JCheckBox cboxPfPj;
 
 	private JButton btnEnviar, btnLimpar;
 
 	public AppCliente() {
 
 		super("Cadastro de Clientes");// Titulo da janela JFrame, classe acima.
-		// construtor vazio "super()", ir� criar uma janela invisivel.
+		// construtor vazio "super()", irá criar uma janela invisivel.
 		setSize(450, 500); // Define a largura e altura da janela
-		setLocation(550, 200); // Define a posi��o x e y da janela
+		setLocation(550, 200); // Define a posiçãoo x e y da janela
 		// setTitle("teste"); pode setar o titulo assim tb ou la em super como
 		// foi feito
-		// setLayout(new FlowLayout()); //est� setando um layaut diferente do
-		// padr�o, o qual pula a linha qnd a janela acaba.
+		// setLayout(new FlowLayout()); //está setando um layaut diferente do
+		// padrão, o qual pula a linha qnd a janela acaba.
 		setLayout(null); // sem layout
 
 		lblNome = new JLabel("Nome: ");
-		lblNome.setBounds(10, 10, 50, 20); // obrigat�rio utilizar x, y ,
+		lblNome.setBounds(10, 10, 50, 20); // obrigatório utilizar x, y ,
 											// largura, altura.
 		txtNome = new JTextField(30);
 		txtNome.setBounds(130, 10, 300, 20);
@@ -70,22 +76,28 @@ public class AppCliente extends JFrame implements ActionListener {
 		txtrgEmissor = new JTextField(30);
 		txtrgEmissor.setBounds(290, 135, 50, 20);
 
-		lblTipoPfPj = new JLabel("Tipo de DOC.:");
-		lblTipoPfPj.setBounds(10, 160, 80, 20);
+		//lblTipoPfPj = new JLabel("Tipo de DOC.:");
+		//lblTipoPfPj.setBounds(10, 160, 80, 20);
 		//String tipoDoc[] = { "CPF", "CNPJ" };
-		txtTipoPfPj = new JTextField(30);
-		txtTipoPfPj.setBounds(130, 160, 60, 20);
+		//txtTipoPfPj = new JTextField(30);
+		//txtTipoPfPj.setBounds(130, 160, 60, 20);
 		//	txtPfPj = new JTextField(30);
 		//	txtPfPj.setBounds(195, 160, 150, 20);
+		
+		cboxPfPj = new JCheckBox("Pessoa Jurídica?");
+		cboxPfPj.setBounds(130, 160, 150, 20);
+		cboxPfPj.addActionListener(this);
 		
 		lblCpf = new JLabel("CPF:");
 		lblCpf.setBounds(10,185,50,20);
 		txtCpf = new JTextField(30);
 		txtCpf.setBounds(130,185,200,20);
+		
 		lblCnpj = new JLabel("CNPJ:");
 		lblCnpj.setBounds(10, 210, 100, 20);
 		txtCnpj = new JTextField(30);
 		txtCnpj.setBounds(130, 210, 200, 20);
+		txtCnpj.setVisible(false);
 		
 		lblemail = new JLabel("Email: ");
 		lblemail.setBounds(10, 235, 100, 20);
@@ -93,8 +105,14 @@ public class AppCliente extends JFrame implements ActionListener {
 		txtemail.setBounds(130, 235, 300, 20);
 		lbldataNasc = new JLabel("Data de Nasc.: ");
 		lbldataNasc.setBounds(10, 260, 100, 20);
+		
+		/*
 		txtdataNasc = new JTextField(30);
 		txtdataNasc.setBounds(130, 260, 100, 20);
+		*/
+		// COLOCANDO O DATEPICKER DATANASC
+		dataNasci = JulioDatePicker.criar(1980, true);
+		dataNasci.setBounds(130, 260, 170, 20);
 		
 		lblcomplemento = new JLabel("Complemento: ");
 		lblcomplemento.setBounds(10, 285, 100, 20);
@@ -105,14 +123,20 @@ public class AppCliente extends JFrame implements ActionListener {
 		txtlogradouro = new JTextField(30);
 		txtlogradouro.setBounds(130, 310, 100, 20);
 		
-		lblrecomendacaoNome = new JLabel("Recomenda��o: ");
+		lblrecomendacaoNome = new JLabel("Recomendação: ");
 		lblrecomendacaoNome.setBounds(10, 335, 100, 20);
 		txtrecomendacaoNome = new JTextField(30);
 		txtrecomendacaoNome.setBounds(130, 335, 300, 20);
 		lblrecomendacaoDataNasc = new JLabel("Data de Nasc.: ");
 		lblrecomendacaoDataNasc.setBounds(10, 360, 100, 20);
+		
+		/*
 		txtrecomendacaoDataNasc = new JTextField(30);
 		txtrecomendacaoDataNasc.setBounds(130, 360, 70, 20);
+		*/
+		// COLOCANDO O DATEPICKER RECOMENDACAODATANASC
+		recomendacaoDataNasci = JulioDatePicker.criar(2000, false);
+		recomendacaoDataNasci.setBounds(130, 360, 170, 20);
 
 		btnEnviar = new JButton("Enviar");
 		btnEnviar.setBounds(10, 385, 80, 20);
@@ -136,8 +160,13 @@ public class AppCliente extends JFrame implements ActionListener {
 		add(txtrg);
 		add(lblrgEmissor);
 		add(txtrgEmissor);
-		add(lblTipoPfPj);
-		add(txtTipoPfPj);
+		
+		//Escolhendo o tipo
+		//add(lblTipoPfPj);
+		//add(txtTipoPfPj);
+		
+		add(cboxPfPj);
+		
 		add(lblCpf);
 		add(txtCpf);
 		add(lblCnpj);
@@ -146,7 +175,7 @@ public class AppCliente extends JFrame implements ActionListener {
 		add(lblemail);
 		add(txtemail);
 		add(lbldataNasc);
-		add(txtdataNasc);
+		add(dataNasci); // add(txtdataNasc);
 		add(lblcomplemento);
 		add(txtcomplemento);
 		add(lbllogradouro);
@@ -154,7 +183,7 @@ public class AppCliente extends JFrame implements ActionListener {
 		add(lblrecomendacaoNome);
 		add(txtrecomendacaoNome);
 		add(lblrecomendacaoDataNasc);
-		add(txtrecomendacaoDataNasc);
+		add(recomendacaoDataNasci); //add(txtrecomendacaoDataNasc);
 		add(btnEnviar);
 		add(btnLimpar);
 
@@ -171,43 +200,45 @@ public class AppCliente extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent clique) {
 		// TODO Auto-generated method stub
 
-		if (btnEnviar == clique.getSource()) {
+		if (btnEnviar == clique.getSource()) { 
+			/*JOptionPane.showMessageDialog(null, "Dados teste:"
+					+ "\ndata: " + dataNasc.getJFormattedTextField().getText()
+					+ "\nboolean: " + cboxPfPj.isSelected()
+					+ ""); */
+						
 			Cliente objCliente = new Cliente();
 			objCliente.setNome(txtNome.getText());
 			objCliente.setResddd(Integer.parseInt(txtresddd.getText()));
 			objCliente.setRestel(Integer.parseInt(txtrestel.getText()));
 			objCliente.setCelddd(Integer.parseInt(txtcelddd.getText()));
 			objCliente.setCeltel(Integer.parseInt(txtceltel.getText()));
-			objCliente.setRg(Integer.parseInt(txtrg.getText()));
-			objCliente.setRgemissor(txtrgEmissor.getText());
-		  //objCliente.setPfpj(Boolean.parseBoolean(txtPfPj.getText()));
-			if (txtTipoPfPj.getText() == "cpf"){
-				txtCnpj.setText(null);
+			objCliente.setPfpj(cboxPfPj.isSelected());
+			
+			if(cboxPfPj.isSelected()){
+				objCliente.setCnpj(Integer.parseInt(txtCnpj.getText()));
+			} else {
+				objCliente.setRg(Integer.parseInt(txtrg.getText()));
+				objCliente.setRgemissor(txtrgEmissor.getText());
 				objCliente.setCpf(Integer.parseInt(txtCpf.getText()));
-				objCliente.setPfpj(Boolean.parseBoolean(null));
-			}
-			else if(txtTipoPfPj.getText() == "cnpj"){
-				txtCpf.setText(null);
-				objCliente.setCnpj(Integer.parseInt(txtPfPj.getText()));
-				objCliente.setPfpj(Boolean.parseBoolean(null));
 			}
 			objCliente.setEmail(txtemail.getText());
-			objCliente.setDataNasc(txtdataNasc.getText());
+			objCliente.setDataNasc(LocalDate.parse(dataNasci.getJFormattedTextField().getText()));
 			objCliente.setComplemento(txtcomplemento.getText());
 			objCliente.setIdlogradouro(Integer.parseInt(txtlogradouro.getText()));
 			objCliente.setRecomendacaonome(txtrecomendacaoNome.getText());
-			objCliente.setRecomendacaodatanasc(txtrecomendacaoDataNasc.getText());
-
+			if(recomendacaoDataNasci.getJFormattedTextField().getValue() != null) {
+			objCliente.setRecomendacaodatanasc(LocalDate.parse(recomendacaoDataNasci.getJFormattedTextField().getText()));
+			}
 			try {
 				ClienteDAO dao = new ClienteDAO();
 				dao.inserir(objCliente);
 				JOptionPane.showMessageDialog(null, "Gravado");
 
 			} catch (SQLException e) {
-				JOptionPane.showMessageDialog(null, "Erro");
+				JOptionPane.showMessageDialog(null, e);
 			}
 		
-		}
+		} 
 		else if (btnLimpar == clique.getSource()){
 			txtNome.setText("");
 			txtresddd.setText("");
@@ -226,6 +257,19 @@ public class AppCliente extends JFrame implements ActionListener {
 			txtrecomendacaoNome.setText("");
 			txtrecomendacaoDataNasc.setText("");
 			
+		}
+		else if (cboxPfPj == clique.getSource()) {
+			if(cboxPfPj.isSelected()) {
+				txtCpf.setVisible(false);
+				txtrg.setVisible(false);
+				txtrgEmissor.setVisible(false);
+				txtCnpj.setVisible(true);
+			} else {
+				txtCpf.setVisible(true);
+				txtrg.setVisible(true);
+				txtrgEmissor.setVisible(true);
+				txtCnpj.setVisible(false);
+			}
 		}
 		
 			
