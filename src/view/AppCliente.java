@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 //import java.util.Date;
+import java.time.LocalDate;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -26,7 +27,7 @@ public class AppCliente extends JFrame implements ActionListener {
 	private JTextField txtNome, txtresddd, txtrestel, txtcelddd, txtceltel, txtrg, txtPfPj, txtemail, txtdataNasc,
 			txtcomplemento, txtlogradouro, txtrecomendacaoNome, txtrecomendacaoDataNasc, txtrgEmissor, txtTipoPfPj,txtCpf,txtCnpj;
 
-	private JDatePickerImpl dataNasc, recomendacaoDataNasc;
+	private JDatePickerImpl dataNasci, recomendacaoDataNasci;
 //	private JComboBox cboxrgEmissor, cboxTipoPfPj;
 	private JCheckBox cboxPfPj;
 
@@ -35,17 +36,17 @@ public class AppCliente extends JFrame implements ActionListener {
 	public AppCliente() {
 
 		super("Cadastro de Clientes");// Titulo da janela JFrame, classe acima.
-		// construtor vazio "super()", ir� criar uma janela invisivel.
+		// construtor vazio "super()", irá criar uma janela invisivel.
 		setSize(450, 500); // Define a largura e altura da janela
-		setLocation(550, 200); // Define a posi��o x e y da janela
+		setLocation(550, 200); // Define a posiçãoo x e y da janela
 		// setTitle("teste"); pode setar o titulo assim tb ou la em super como
 		// foi feito
-		// setLayout(new FlowLayout()); //est� setando um layaut diferente do
-		// padr�o, o qual pula a linha qnd a janela acaba.
+		// setLayout(new FlowLayout()); //está setando um layaut diferente do
+		// padrão, o qual pula a linha qnd a janela acaba.
 		setLayout(null); // sem layout
 
 		lblNome = new JLabel("Nome: ");
-		lblNome.setBounds(10, 10, 50, 20); // obrigat�rio utilizar x, y ,
+		lblNome.setBounds(10, 10, 50, 20); // obrigatório utilizar x, y ,
 											// largura, altura.
 		txtNome = new JTextField(30);
 		txtNome.setBounds(130, 10, 300, 20);
@@ -110,8 +111,8 @@ public class AppCliente extends JFrame implements ActionListener {
 		txtdataNasc.setBounds(130, 260, 100, 20);
 		*/
 		// COLOCANDO O DATEPICKER DATANASC
-		dataNasc = JulioDatePicker.criar(1980);
-		dataNasc.setBounds(130, 260, 170, 20);
+		dataNasci = JulioDatePicker.criar(1980, true);
+		dataNasci.setBounds(130, 260, 170, 20);
 		
 		lblcomplemento = new JLabel("Complemento: ");
 		lblcomplemento.setBounds(10, 285, 100, 20);
@@ -122,7 +123,7 @@ public class AppCliente extends JFrame implements ActionListener {
 		txtlogradouro = new JTextField(30);
 		txtlogradouro.setBounds(130, 310, 100, 20);
 		
-		lblrecomendacaoNome = new JLabel("Recomenda��o: ");
+		lblrecomendacaoNome = new JLabel("Recomendação: ");
 		lblrecomendacaoNome.setBounds(10, 335, 100, 20);
 		txtrecomendacaoNome = new JTextField(30);
 		txtrecomendacaoNome.setBounds(130, 335, 300, 20);
@@ -134,8 +135,8 @@ public class AppCliente extends JFrame implements ActionListener {
 		txtrecomendacaoDataNasc.setBounds(130, 360, 70, 20);
 		*/
 		// COLOCANDO O DATEPICKER RECOMENDACAODATANASC
-		recomendacaoDataNasc = JulioDatePicker.criar(2000);
-		recomendacaoDataNasc.setBounds(130, 360, 170, 20);
+		recomendacaoDataNasci = JulioDatePicker.criar(2000, false);
+		recomendacaoDataNasci.setBounds(130, 360, 170, 20);
 
 		btnEnviar = new JButton("Enviar");
 		btnEnviar.setBounds(10, 385, 80, 20);
@@ -174,7 +175,7 @@ public class AppCliente extends JFrame implements ActionListener {
 		add(lblemail);
 		add(txtemail);
 		add(lbldataNasc);
-		add(dataNasc); // add(txtdataNasc);
+		add(dataNasci); // add(txtdataNasc);
 		add(lblcomplemento);
 		add(txtcomplemento);
 		add(lbllogradouro);
@@ -182,7 +183,7 @@ public class AppCliente extends JFrame implements ActionListener {
 		add(lblrecomendacaoNome);
 		add(txtrecomendacaoNome);
 		add(lblrecomendacaoDataNasc);
-		add(recomendacaoDataNasc); //add(txtrecomendacaoDataNasc);
+		add(recomendacaoDataNasci); //add(txtrecomendacaoDataNasc);
 		add(btnEnviar);
 		add(btnLimpar);
 
@@ -199,43 +200,45 @@ public class AppCliente extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent clique) {
 		// TODO Auto-generated method stub
 
-		if (btnEnviar == clique.getSource()) {
+		if (btnEnviar == clique.getSource()) { 
+			/*JOptionPane.showMessageDialog(null, "Dados teste:"
+					+ "\ndata: " + dataNasc.getJFormattedTextField().getText()
+					+ "\nboolean: " + cboxPfPj.isSelected()
+					+ ""); */
+						
 			Cliente objCliente = new Cliente();
 			objCliente.setNome(txtNome.getText());
 			objCliente.setResddd(Integer.parseInt(txtresddd.getText()));
 			objCliente.setRestel(Integer.parseInt(txtrestel.getText()));
 			objCliente.setCelddd(Integer.parseInt(txtcelddd.getText()));
 			objCliente.setCeltel(Integer.parseInt(txtceltel.getText()));
-			objCliente.setRg(Integer.parseInt(txtrg.getText()));
-			objCliente.setRgemissor(txtrgEmissor.getText());
-		  //objCliente.setPfpj(Boolean.parseBoolean(txtPfPj.getText()));
-			if (txtTipoPfPj.getText() == "cpf"){
-				txtCnpj.setText(null);
+			objCliente.setPfpj(cboxPfPj.isSelected());
+			
+			if(cboxPfPj.isSelected()){
+				objCliente.setCnpj(Integer.parseInt(txtCnpj.getText()));
+			} else {
+				objCliente.setRg(Integer.parseInt(txtrg.getText()));
+				objCliente.setRgemissor(txtrgEmissor.getText());
 				objCliente.setCpf(Integer.parseInt(txtCpf.getText()));
-				objCliente.setPfpj(Boolean.parseBoolean(null));
-			}
-			else if(txtTipoPfPj.getText() == "cnpj"){
-				txtCpf.setText(null);
-				objCliente.setCnpj(Integer.parseInt(txtPfPj.getText()));
-				objCliente.setPfpj(Boolean.parseBoolean(null));
 			}
 			objCliente.setEmail(txtemail.getText());
-			objCliente.setDataNasc(txtdataNasc.getText());
+			objCliente.setDataNasc(LocalDate.parse(dataNasci.getJFormattedTextField().getText()));
 			objCliente.setComplemento(txtcomplemento.getText());
 			objCliente.setIdlogradouro(Integer.parseInt(txtlogradouro.getText()));
 			objCliente.setRecomendacaonome(txtrecomendacaoNome.getText());
-			objCliente.setRecomendacaodatanasc(txtrecomendacaoDataNasc.getText());
-
+			if(recomendacaoDataNasci.getJFormattedTextField().getValue() != null) {
+			objCliente.setRecomendacaodatanasc(LocalDate.parse(recomendacaoDataNasci.getJFormattedTextField().getText()));
+			}
 			try {
 				ClienteDAO dao = new ClienteDAO();
 				dao.inserir(objCliente);
 				JOptionPane.showMessageDialog(null, "Gravado");
 
 			} catch (SQLException e) {
-				JOptionPane.showMessageDialog(null, "Erro");
+				JOptionPane.showMessageDialog(null, e);
 			}
 		
-		}
+		} 
 		else if (btnLimpar == clique.getSource()){
 			txtNome.setText("");
 			txtresddd.setText("");

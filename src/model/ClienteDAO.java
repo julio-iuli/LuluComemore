@@ -27,11 +27,16 @@ public void inserir (Cliente cliente) throws SQLException {
     prepararSQL.setInt(9,cliente.getCnpj());
     prepararSQL.setBoolean(10,cliente.getPfpj());
     prepararSQL.setString(11,cliente.getEmail());
-    prepararSQL.setString(12,cliente.getDatanasc());
+    prepararSQL.setDate(12, java.sql.Date.valueOf(cliente.getDatanasc()));
     prepararSQL.setString(13,cliente.getComplemento());
     prepararSQL.setInt(14,cliente.getIdlogradouro());
     prepararSQL.setString(15,cliente.getRecomendacaonome());
-    prepararSQL.setString(16,cliente.getRecomendacaodatanasc());
+    
+    if (cliente.getRecomendacaodatanasc() != null){
+    	prepararSQL.setDate(16, java.sql.Date.valueOf(cliente.getRecomendacaodatanasc()));
+    } else {
+    	prepararSQL.setDate(16, null);
+    }
     
     prepararSQL.execute ();
   }

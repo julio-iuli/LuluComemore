@@ -8,7 +8,7 @@ import org.jdatepicker.impl.*;
 
 public class JulioDatePicker {
 
-	public static JDatePickerImpl criar(int ano) {
+	public static JDatePickerImpl criar(int ano, boolean x) {
 		
 		Properties p = new Properties();
 		p.put("text.today", "Hoje");
@@ -17,7 +17,7 @@ public class JulioDatePicker {
 		
 		UtilDateModel model = new UtilDateModel();
 		model.setDate(ano, 0, 1);
-		model.setSelected(true);
+		model.setSelected(x);
 		JDatePanelImpl datePanel = new JDatePanelImpl(model, p);
 		JDatePickerImpl datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
 		
