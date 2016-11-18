@@ -18,6 +18,11 @@ import org.jdatepicker.impl.JDatePickerImpl;
 
 import model.Cliente;
 import model.ClienteDAO;
+import model.Endereco;
+import model.EnderecoDAO;
+
+import javax.swing.JPanel;
+import java.awt.GridLayout;
 
 public class AppCliente extends JFrame implements ActionListener {
 
@@ -31,19 +36,28 @@ public class AppCliente extends JFrame implements ActionListener {
 //	private JComboBox cboxrgEmissor, cboxTipoPfPj;
 	private JCheckBox cboxPfPj;
 
-	private JButton btnEnviar, btnLimpar;
+	private JButton btnEnviar, btnLimpar, btnBuscacep;
+	private JLabel lblEndereco;
+	private JLabel lblEstado;
+	private JLabel lblCidade;
+	private JLabel lblBairro;
+	private JTextField txtBairro;
+	private JTextField txtCidade;
+	private JTextField txtUf;
+	private JTextField txtCep;
+	private String cepi;
 
 	public AppCliente() {
 
 		super("Cadastro de Clientes");// Titulo da janela JFrame, classe acima.
 		// construtor vazio "super()", irá criar uma janela invisivel.
-		setSize(450, 500); // Define a largura e altura da janela
+		setSize(450, 700); // Define a largura e altura da janela
 		setLocation(550, 200); // Define a posiçãoo x e y da janela
 		// setTitle("teste"); pode setar o titulo assim tb ou la em super como
 		// foi feito
 		// setLayout(new FlowLayout()); //está setando um layaut diferente do
 		// padrão, o qual pula a linha qnd a janela acaba.
-		setLayout(null); // sem layout
+		getContentPane().setLayout(null); // sem layout
 
 		lblNome = new JLabel("Nome: ");
 		lblNome.setBounds(10, 10, 50, 20); // obrigatório utilizar x, y ,
@@ -118,10 +132,11 @@ public class AppCliente extends JFrame implements ActionListener {
 		lblcomplemento.setBounds(10, 285, 100, 20);
 		txtcomplemento = new JTextField(30);
 		txtcomplemento.setBounds(130, 285, 100, 20);
-		lbllogradouro = new JLabel("Logradouro: ");
-		lbllogradouro.setBounds(10, 310, 100, 20);
+		lbllogradouro = new JLabel("Logradouro");
+		lbllogradouro.setBounds(10, 526, 100, 20);
 		txtlogradouro = new JTextField(30);
-		txtlogradouro.setBounds(130, 310, 100, 20);
+		txtlogradouro.setEditable(false);
+		txtlogradouro.setBounds(110, 527, 159, 20);
 		
 		lblrecomendacaoNome = new JLabel("Recomendação: ");
 		lblrecomendacaoNome.setBounds(10, 335, 100, 20);
@@ -146,46 +161,94 @@ public class AppCliente extends JFrame implements ActionListener {
 		btnLimpar.addActionListener(this);
 
 		// essa � a ordem que se insere os componentes.
-		add(lblNome);
-		add(txtNome);
-		add(lblresddd);
-		add(txtresddd);
-		add(lblrestel);
-		add(txtrestel);
-		add(lblcelddd);
-		add(txtcelddd);
-		add(lblceltel);
-		add(txtceltel);
-		add(lblrg);
-		add(txtrg);
-		add(lblrgEmissor);
-		add(txtrgEmissor);
+		getContentPane().add(lblNome);
+		getContentPane().add(txtNome);
+		getContentPane().add(lblresddd);
+		getContentPane().add(txtresddd);
+		getContentPane().add(lblrestel);
+		getContentPane().add(txtrestel);
+		getContentPane().add(lblcelddd);
+		getContentPane().add(txtcelddd);
+		getContentPane().add(lblceltel);
+		getContentPane().add(txtceltel);
+		getContentPane().add(lblrg);
+		getContentPane().add(txtrg);
+		getContentPane().add(lblrgEmissor);
+		getContentPane().add(txtrgEmissor);
 		
 		//Escolhendo o tipo
 		//add(lblTipoPfPj);
 		//add(txtTipoPfPj);
 		
-		add(cboxPfPj);
+		getContentPane().add(cboxPfPj);
 		
-		add(lblCpf);
-		add(txtCpf);
-		add(lblCnpj);
-		add(txtCnpj);
+		getContentPane().add(lblCpf);
+		getContentPane().add(txtCpf);
+		getContentPane().add(lblCnpj);
+		getContentPane().add(txtCnpj);
 		//		add(txtPfPj);
-		add(lblemail);
-		add(txtemail);
-		add(lbldataNasc);
-		add(dataNasci); // add(txtdataNasc);
-		add(lblcomplemento);
-		add(txtcomplemento);
-		add(lbllogradouro);
-		add(txtlogradouro);
-		add(lblrecomendacaoNome);
-		add(txtrecomendacaoNome);
-		add(lblrecomendacaoDataNasc);
-		add(recomendacaoDataNasci); //add(txtrecomendacaoDataNasc);
-		add(btnEnviar);
-		add(btnLimpar);
+		getContentPane().add(lblemail);
+		getContentPane().add(txtemail);
+		getContentPane().add(lbldataNasc);
+		getContentPane().add(dataNasci); // add(txtdataNasc);
+		getContentPane().add(lblcomplemento);
+		getContentPane().add(txtcomplemento);
+		getContentPane().add(lbllogradouro);
+		getContentPane().add(txtlogradouro);
+		getContentPane().add(lblrecomendacaoNome);
+		getContentPane().add(txtrecomendacaoNome);
+		getContentPane().add(lblrecomendacaoDataNasc);
+		getContentPane().add(recomendacaoDataNasci); //add(txtrecomendacaoDataNasc);
+		getContentPane().add(btnEnviar);
+		getContentPane().add(btnLimpar);
+		
+		lblEndereco = new JLabel("Endereço");
+		lblEndereco.setBounds(10, 434, 70, 15);
+		getContentPane().add(lblEndereco);
+		
+		lblEstado = new JLabel("Estado");
+		lblEstado.setBounds(10, 461, 70, 15);
+		getContentPane().add(lblEstado);
+		
+		lblCidade = new JLabel("Cidade");
+		lblCidade.setBounds(10, 483, 70, 15);
+		getContentPane().add(lblCidade);
+		
+		lblBairro = new JLabel("Bairro");
+		lblBairro.setBounds(10, 507, 70, 15);
+		getContentPane().add(lblBairro);
+		
+		txtBairro = new JTextField();
+		txtBairro.setEditable(false);
+		txtBairro.setBounds(110, 505, 159, 19);
+		getContentPane().add(txtBairro);
+		txtBairro.setColumns(10);
+		
+		txtCidade = new JTextField();
+		txtCidade.setEditable(false);
+		txtCidade.setBounds(110, 481, 159, 19);
+		getContentPane().add(txtCidade);
+		txtCidade.setColumns(10);
+		
+		txtUf = new JTextField();
+		txtUf.setEditable(false);
+		txtUf.setBounds(110, 459, 159, 19);
+		getContentPane().add(txtUf);
+		txtUf.setColumns(10);
+		
+		JLabel lblCep = new JLabel("CEP");
+		lblCep.setBounds(10, 558, 70, 15);
+		getContentPane().add(lblCep);
+		
+		txtCep = new JTextField();
+		txtCep.setBounds(110, 556, 114, 19);
+		getContentPane().add(txtCep);
+		txtCep.setColumns(10);
+		
+		btnBuscacep = new JButton("Busca CEP");
+		btnBuscacep.setBounds(10, 595, 117, 25);
+		btnBuscacep.addActionListener(this);
+		getContentPane().add(btnBuscacep);
 
 		setVisible(true);
 
@@ -194,7 +257,7 @@ public class AppCliente extends JFrame implements ActionListener {
 	public static void main(String[] args) {
 		AppCliente appcliente = new AppCliente();
 
-	}
+	} 
 
 	@Override
 	public void actionPerformed(ActionEvent clique) {
@@ -270,6 +333,26 @@ public class AppCliente extends JFrame implements ActionListener {
 				txtrgEmissor.setVisible(true);
 				txtCnpj.setVisible(false);
 			}
+		}
+		else if (btnBuscacep == clique.getSource()) {
+			try {
+				cepi = txtCep.getText();
+				EnderecoDAO dao = new EnderecoDAO();
+				Endereco endereco;
+				endereco = dao.buscarEndereco(Integer.parseInt(cepi));
+				txtUf.setText(endereco.getUf());
+				txtCidade.setText(endereco.getCidade());
+				txtBairro.setText(endereco.getBairro());
+				txtlogradouro.setText(endereco.getLogradouro().getNome());
+				//JOptionPane.showMessageDialog(null, endereco.getLogradouro().getNome());
+			} catch (NumberFormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 		}
 		
 			
